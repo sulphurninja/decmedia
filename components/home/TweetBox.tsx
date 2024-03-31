@@ -20,6 +20,19 @@ const style = {
   activeSubmit: `bg-[#1d9bf0] text-white`,
 }
 
+interface TweetDoc {
+  _type: string;
+  _id: string;
+  tweet: string;
+  timestamp: string;
+  author: {
+    _key: string;
+    _ref: string;
+    _type: string;
+  };
+  image?: { url: string }; // Make the image field optional
+}
+
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState('');
   const [tweetImage, setTweetImage] = useState('');
@@ -37,7 +50,7 @@ function TweetBox() {
 
     const tweetId = `${currentAccount}_${Date.now()}`;
 
-    const tweetDoc = {
+    const tweetDoc : TweetDoc = {
       _type: 'tweets',
       _id: tweetId,
       tweet: tweetMessage,
