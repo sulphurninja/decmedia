@@ -8,7 +8,8 @@ export const TwitterProvider = ({ children }) => {
   const [appStatus, setAppStatus] = useState('')
   const [currentAccount, setCurrentAccount] = useState('')
   const [currentUser, setCurrentUser] = useState({})
-  const [tweets, setTweets] = useState([])
+  const [tweets, setTweets] = useState([]);
+  const [users, setUsers] = useState([]);
   const router = useRouter()
 
   useEffect(() => {
@@ -18,8 +19,11 @@ export const TwitterProvider = ({ children }) => {
   useEffect(() => {
     if (!currentAccount && appStatus == 'connected') return
     getCurrentUserDetails(currentAccount)
-    fetchTweets()
+    fetchTweets();
+    fetchUsers();
   }, [currentAccount, appStatus])
+
+  console.log(users, 'husersss')
 
   /**
    * Checks if there is an active wallet connection
@@ -117,7 +121,8 @@ export const TwitterProvider = ({ children }) => {
       *[_type == "tweets"]{
         "author": author->{name, walletAddress, profileImage, isProfileImageNft},
         tweet,
-        timestamp
+        timestamp,
+        "image": image.url
       }|order(timestamp desc)
     `
 
@@ -153,6 +158,29 @@ export const TwitterProvider = ({ children }) => {
         setTweets(prevState => [...prevState, item])
       }
     })
+  }
+
+
+
+  const fetchUsers = async () => {
+    const query = `
+    *[_type == "users"]{
+      name,
+      walletAddress,
+      profileImage,
+    }
+    `
+
+    // setTweets(await client.fetch(query))
+
+    const sanityResponse = await client.fetch(query)
+    console.log(sanityResponse, 'what is this')
+    setUsers(sanityResponse)
+
+    /**
+     * Async await not available with for..of loops.
+     */
+
   }
 
   /**
@@ -198,6 +226,8 @@ export const TwitterProvider = ({ children }) => {
         connectWallet,
         tweets,
         fetchTweets,
+        users,
+        fetchUsers,
         setAppStatus,
         getNftProfileImage,
         currentUser,
