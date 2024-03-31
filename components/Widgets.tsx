@@ -1,5 +1,28 @@
+import { useContext } from 'react';
 import { news, whoToFollow } from '../lib/static'
 import { BiSearch } from 'react-icons/bi'
+import { TwitterContext } from '../context/TwitterContext';
+import SmallPost from './SmallPost';
+
+interface Tweet {
+  author: TweetAuthor
+  tweet: string
+  timestamp: string
+  image: string
+}
+
+interface User {
+ name: string
+ walletAddress: string
+ profileImage: string
+}
+
+interface TweetAuthor {
+  name: string
+  walletAddress: string
+  profileImage: string
+  isProfileImageNft: boolean
+}
 
 const style = {
   wrapper: `flex-[1] p-4`,
@@ -24,6 +47,8 @@ const style = {
 }
 
 function Widgets() {
+const { tweets, users } = useContext(TwitterContext);
+console.log(users, 'users')
   return (
     <div className={style.wrapper}>
       <div className={style.searchBar}>
@@ -36,37 +61,39 @@ function Widgets() {
       </div>
       <div className={style.section}>
         <div className={style.title}>What's happening</div>
-        {news.map((item, index) => (
-          <div key={index} className={style.item}>
-            <div className={style.newsItemLeft}>
-              <div className={style.newsItemCategory}>{item.category}</div>
-              <div className={style.newsItemTitle}>{item.title}</div>
-            </div>
-            <div className={style.newsItemRight}>
-              <img
-                src={item.image}
-                alt={item.category}
-                className={style.newsItemImage}
-              />
-            </div>
-          </div>
+        {tweets.slice(0, 5).map((tweet: Tweet, index: number) => (
+          <SmallPost
+            key={index}
+            displayName={
+              tweet.author.name === 'Unnamed'
+                ? `${tweet.author.walletAddress.slice(0, 4)}...${tweet.author.walletAddress.slice(41)}`
+                : tweet.author.name
+            }
+            userName={`${tweet.author.walletAddress.slice(0, 4)}...${tweet.author.walletAddress.slice(41)}`}
+            text={tweet.tweet}
+            avatar={tweet.author.profileImage}
+            image={tweet.image}
+            isProfileImageNft={tweet.author.isProfileImageNft}
+            timestamp={tweet.timestamp}
+          />
         ))}
+
         <div className={style.showMore}>Show more</div>
       </div>
       <div className={style.section}>
         <div className={style.title}>Who to follow</div>
-        {whoToFollow.map((item, index) => (
+        {users.slice(1, 6).map((user: User, index: number) => (
           <div key={index} className={style.item}>
             <div className={style.followAvatarContainer}>
               <img
-                src={item.avatar}
-                alt={item.handle}
+                src={user.profileImage}
+                alt={user.profileImage}
                 className={style.followAvatar}
               />
             </div>
             <div className={style.profileDetails}>
-              <div className={style.name}>{item.name}</div>
-              <div className={style.handle}>{item.handle}</div>
+              <div className={style.name}>{user.name}</div>
+              {/* <div className={style.handle}>{user.walletAddress}</div> */}
             </div>
             <div className={style.followButton}>Follow</div>
           </div>

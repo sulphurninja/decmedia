@@ -24,6 +24,7 @@ interface PostProps {
   userName: string
   text: string
   avatar: string
+  image: string
   timestamp: string
   isProfileImageNft: Boolean | undefined
 }
@@ -34,9 +35,11 @@ const Post = ({
   text,
   avatar,
   timestamp,
+  image,
   isProfileImageNft,
 }: PostProps) => {
-  const [profileImageLink] = useState(avatar)
+  const [profileImageLink] = useState(avatar);
+  const [tweetImage] = useState(image);
 
   return (
     <div className={style.wrapper}>
@@ -65,6 +68,15 @@ const Post = ({
             </span>
           </span>
           <div className={style.tweet}>{text}</div>
+           {tweetImage && (
+            <div>
+              <img
+                src={tweetImage}
+                alt={tweetImage}
+                className='' // Add your additional classes here
+              />
+            </div>
+          )}
         </div>
         <div className={style.footer}>
           <div

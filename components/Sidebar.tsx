@@ -62,6 +62,8 @@ function Sidebar({ initialSelectedIcon }: SidebarProps) {
           text='Explore'
           isActive={Boolean(selected === 'Explore')}
           setSelected={setSelected}
+          redirect={'/explore'}
+
         />
         <SidebarOption
           Icon={selected === 'Notifications' ? FaBell : FiBell}
@@ -129,13 +131,13 @@ function Sidebar({ initialSelectedIcon }: SidebarProps) {
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         isOpen={Boolean(router.query.mint)}
         onRequestClose={() => router.back()}
         style={customStyles}
       >
         <ProfileImageMinter />
-      </Modal>
+      </Modal> */}
     </div>
   )
 }
