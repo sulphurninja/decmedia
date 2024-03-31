@@ -11,6 +11,7 @@ const style = {
 interface Tweet {
   timestamp: string
   tweet: string
+  image: string
 }
 
 interface Tweets extends Array<Tweet> {}
@@ -28,6 +29,7 @@ const ProfileTweets = () => {
     {
       timestamp: '',
       tweet: '',
+      image:'',
     },
   ])
   const [author, setAuthor] = useState<Author>({
@@ -69,6 +71,7 @@ const ProfileTweets = () => {
           text={tweet.tweet}
           avatar={author.profileImage}
           timestamp={tweet.timestamp}
+          image={tweet.image}
           isProfileImageNft={author.isProfileImageNft}
         />
       ))}
