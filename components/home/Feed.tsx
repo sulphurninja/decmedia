@@ -14,6 +14,7 @@ interface Tweet {
   author: TweetAuthor
   tweet: string
   timestamp: string
+  image: string
 }
 
 interface TweetAuthor {
@@ -24,7 +25,8 @@ interface TweetAuthor {
 }
 
 function Feed() {
-  const { tweets } = useContext(TwitterContext)
+  const { tweets } = useContext(TwitterContext);
+  console.log(tweets, 'twee')
 
   return (
     <div className={`${style.wrapper} no-scrollbar`}>
@@ -50,6 +52,7 @@ function Feed() {
           )}...${tweet.author.walletAddress.slice(41)}`}
           text={tweet.tweet}
           avatar={tweet.author.profileImage}
+          image={tweet.image}
           isProfileImageNft={tweet.author.isProfileImageNft}
           timestamp={tweet.timestamp}
         />
