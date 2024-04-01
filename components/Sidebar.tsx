@@ -131,13 +131,13 @@ function Sidebar({ initialSelectedIcon }: SidebarProps) {
         </div>
       </div>
 
-      {/* <Modal
+      <Modal
         isOpen={Boolean(router.query.mint)}
         onRequestClose={() => router.back()}
         style={customStyles}
       >
         <ProfileImageMinter />
-      </Modal> */}
+      </Modal>
     </div>
   )
 }
